@@ -747,6 +747,12 @@ EOT;
         self::assertFalse($this->Mail->addAddress('', 'Nobody'), 'Empty address with name accepted');
         self::assertFalse($this->Mail->addAddress('a@example..com'), 'Invalid address accepted');
         self::assertTrue($this->Mail->addAddress('a@example.com'), 'Addressing failed');
+        self::assertTrue($this->Mail->addAddress('nullname@example.com', null), 'Null name not ignored');
+        self::assertTrue(
+            $this->Mail->addAddress('objectname@example.com', new \stdClass()),
+            'Object as name not ignored'
+        );
+        self::assertTrue($this->Mail->addAddress('arrayname@example.com', [1,2,3]), 'Array as name not ignored');
         self::assertFalse($this->Mail->addAddress('a@example.com'), 'Duplicate addressing failed');
         self::assertTrue($this->Mail->addCC('b@example.com'), 'CC addressing failed');
         self::assertFalse($this->Mail->addCC('b@example.com'), 'CC duplicate addressing failed');
@@ -1052,6 +1058,7 @@ EOT;
         $this->Mail->isSendmail();
         $this->Mail->isQmail();
         $this->Mail->Sender = '';
+        self::assertEmpty($this->Mail->Sender);
         $this->Mail->createHeader();
     }
 
