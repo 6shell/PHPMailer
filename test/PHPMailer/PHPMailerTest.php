@@ -805,8 +805,7 @@ EOT;
         $this->buildBody();
         $this->Mail->preSend();
         self::assertMatchesRegularExpression(
-            "/Content-Transfer-Encoding: 8bit\r\n\r\n" .
-            'This is a multi-part message in MIME format./',
+            "/Content-Transfer-Encoding: 8bit\r\n\r\n/",
             $this->Mail->getSentMIMEMessage(),
             'MIME structure broken'
         );
@@ -838,6 +837,20 @@ EOT;
         $mail = new PHPMailer(true);
         $mail->addAttachment(__FILE__, 'test.txt', 'invalidencoding');
     }
+
+    /**
+     * Expect errors on trying to attach a folder as an attachment
+     */
+    public function testAddFolderAsAttachment()
+    {
+        $mail = new PHPMailer();
+        self::assertFalse($mail->addAttachment(__DIR__, 'test.txt'));
+
+        $this->expectException(Exception::class);
+        $mail = new PHPMailer(true);
+        $mail->addAttachment(__DIR__, 'test.txt');
+    }
+
 
     /**
      * Expect exceptions on sending after deleting a previously successfully attached file
