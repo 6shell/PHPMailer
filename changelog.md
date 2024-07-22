@@ -1,5 +1,35 @@
 # PHPMailer Change Log
 
+## WIP
+* Escape dots in SMTP transaction ID patterns
+* Add link to [aboutmy.email](https://aboutmy.email) testing service in docs
+* Add a more comprehensive example for using XOAUTH2 with gmail and Azure, thanks to @decomplexity
+* Update Turkish, Spanish, Japanese, Russian translations
+* Add Urdu translation
+* Fix broken links in docs and comments, avoid http links, correct link to LGPL 2.1 license file
+* Cleaner PSR-3 SMTP debug logging
+
+## Version 6.9.1 (November 25th, 2023)
+* Finalise SendOauth2 example
+
+## Version 6.9.0 (November 23rd, 2023)
+* Add support for official release of PHP 8.3, add experimental support for PHP 8.4
+* Add `clearCustomHeader` and `replaceCustomHeader` methods
+* Add support for the XCLIENT SMTP extension with `setSMTPXclientAttribute` and `getSMTPXclientAttributes` methods
+* Don't attempt opportunistic TLS when connecting to localhost
+* Add package link and example showing how to use @decomplexity's SendOauth2 wrapper
+* Update example to show a better way of using an SMTP subclass
+* Avoid some more deprecation warnings
+* Update Danish and Polish translations
+* Add Bengali and Assamese translations
+
+## Version 6.8.1 (August 29th, 2023)
+* Don't reflect malformed DSNs in error messages to avert any risk of XSS
+* Improve Simplified Chinese, Sinhalese, and Norwegian translations
+* Don't use `setAccessible` in PHP >= 8.1 in tests
+* Avoid a deprecation notice in PHP 8.3
+* Fix link in readme
+
 ## Version 6.8.0 (March 6th, 2023)
 * Add DSN parsing class, thanks to @voronkovich
 * Fix some name edge cases, expand tests
@@ -859,7 +889,7 @@ NOTE: will NOT work with PHP5 in E_STRICT error mode
 ## Version 1.73 (Sun, Jun 10 2005)
 * Fixed denial of service bug: http://www.cybsec.com/vuln/PHPMailer-DOS.pdf
 * Now has a total of 20 translations
-* Fixed alt attachments bug: http://tinyurl.com/98u9k
+* Fixed alt attachments bug: https://sourceforge.net/p/phpmailer/bugs/120/
 
 ## Version 1.72 (Wed, May 25 2004)
 * Added Dutch, Swedish, Czech, Norwegian, and Turkish translations.
@@ -976,7 +1006,7 @@ NOTE: will NOT work with PHP5 in E_STRICT error mode
 ## Version 1.19 (Thu, Jun 21 2001)
 * Fixed MS Mail header bug
 * Added fix for Bcc problem with mail(). *Does not work on Win32*
-  (See PHP bug report: http://www.php.net/bugs.php?id=11616)
+  (See PHP bug report: https://bugs.php.net/bug.php?id=11616
 * mail() no longer passes a fifth parameter when not needed
 
 ## Version 1.15 (Fri, Jun 15 2001)
