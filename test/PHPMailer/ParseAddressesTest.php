@@ -70,6 +70,33 @@ final class ParseAddressesTest extends TestCase
     }
 
     /**
+     * Test that the deprecated $useimap argument still accepts historical boolean values.
+     *
+     * @covers \PHPMailer\PHPMailer\PHPMailer::parseAddresses
+     */
+    public function testParseAddressesAcceptsDeprecatedUseimapBoolean()
+    {
+        set_error_handler(static function ($errno, $errstr) {
+            if ($errno === E_USER_DEPRECATED) {
+                throw new \Exception($errstr, $errno);
+            }
+
+            return true;
+        }, E_USER_NOTICE | E_USER_DEPRECATED);
+
+        try {
+            $expected = [
+                ['name' => '', 'address' => 'joe@example.com'],
+            ];
+
+            $this->verifyExpectations(PHPMailer::parseAddresses('joe@example.com', true), $expected);
+            $this->verifyExpectations(PHPMailer::parseAddresses('joe@example.com', false), $expected);
+        } finally {
+            restore_error_handler();
+        }
+    }
+
+    /**
      * Data provider for testAddressSplittingNative.
      *
      * @return array
