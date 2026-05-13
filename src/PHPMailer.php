@@ -2916,7 +2916,7 @@ class PHPMailer
             );
         } elseif (is_string($this->XMailer) && trim($this->XMailer) !== '') {
             //Some string
-            $result .= $this->headerLine('X-Mailer', trim($this->XMailer));
+            $result .= $this->headerLine('X-Mailer', $this->secureHeader(trim($this->XMailer)));
         } //Other values result in no X-Mailer header
 
         if ('' !== $this->ConfirmReadingTo) {
