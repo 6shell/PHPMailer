@@ -240,7 +240,7 @@ final class MessageDateTest extends TestCase
         $markerAddr = 'evil@inject.example.com';
         $markerHdr  = 'X-Injected';
 
-        return [
+        $cases = [
             'CRLF before Bcc' => [
                 'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\r\nBcc: $markerAddr",
                 'injectedMarker' => $markerAddr,
@@ -276,22 +276,25 @@ final class MessageDateTest extends TestCase
                 'injectedMarker' => $markerAddr,
                 'label'          => 'Tab-folded fake header',
             ],
-            'Unicode line separator U+2028' => [
-                'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\u{2028}Bcc: $markerAddr",
-                'injectedMarker' => $markerAddr,
-                'label'          => 'Unicode line separator U+2028',
-            ],
-            'Unicode paragraph separator U+2029' => [
-                'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\u{2029}Bcc: $markerAddr",
-                'injectedMarker' => $markerAddr,
-                'label'          => 'Unicode paragraph separator U+2029',
-            ],
             'Content-Type override attempt' => [
                 'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\r\nContent-Type: text/html",
                 'injectedMarker' => 'Content-Type: text/html',
                 'label'          => 'Content-Type override attempt',
             ],
         ];
+        if (PHP_VERSION_ID > 50600) {
+            $cases['Unicode line separator U+2028'] = [
+                'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\u{2028}Bcc: $markerAddr",
+                'injectedMarker' => $markerAddr,
+                'label'          => 'Unicode line separator U+2028',
+            ];
+            $cases['Unicode paragraph separator U+2029'] = [
+                'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\u{2029}Bcc: $markerAddr",
+                'injectedMarker' => $markerAddr,
+                'label'          => 'Unicode paragraph separator U+2029',
+            ];
+        }
+        return $cases;
     }
 
     // -----------------------------------------------------------------------
