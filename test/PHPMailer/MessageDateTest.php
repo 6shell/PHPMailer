@@ -32,7 +32,12 @@ final class MessageDateTest extends TestCase
      * Pattern for a well-formed RFC 5322 date-time string as produced by
      * PHPMailer::rfcDate(): "Day, D Mon YYYY HH:MM:SS ±HHMM".
      */
-    const RFC5322_PATTERN = '/^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} [+-]\d{4}$/';
+    const RFC5322_PATTERN = '/^
+        (?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\x20
+        \d{1,2}\x20
+        (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\x20
+        \d{4}\x20\d{2}:\d{2}:\d{2}\x20[+-]\d{4}
+    $/x';
 
     /**
      * Run createHeader() and return only the value portion of the Date header,
@@ -240,7 +245,7 @@ final class MessageDateTest extends TestCase
         $markerAddr = 'evil@inject.example.com';
         $markerHdr  = 'X-Injected';
 
-        $cases = [
+        return [
             'CRLF before Bcc' => [
                 'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\r\nBcc: $markerAddr",
                 'injectedMarker' => $markerAddr,
@@ -281,20 +286,17 @@ final class MessageDateTest extends TestCase
                 'injectedMarker' => 'Content-Type: text/html',
                 'label'          => 'Content-Type override attempt',
             ],
-        ];
-        if (PHP_VERSION_ID > 50600) {
-            $cases['Unicode line separator U+2028'] = [
-                'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\u{2028}Bcc: $markerAddr",
+            'Unicode line separator U+2028' => [
+                'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\xE2\x80\xA8Bcc: $markerAddr",
                 'injectedMarker' => $markerAddr,
                 'label'          => 'Unicode line separator U+2028',
-            ];
-            $cases['Unicode paragraph separator U+2029'] = [
-                'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\u{2029}Bcc: $markerAddr",
+            ],
+            'Unicode paragraph separator U+2029' => [
+                'input'          => "Wed, 1 Jan 2020 00:00:00 +0000\xE2\x80\xA9Bcc: $markerAddr",
                 'injectedMarker' => $markerAddr,
                 'label'          => 'Unicode paragraph separator U+2029',
-            ];
-        }
-        return $cases;
+            ]
+        ];
     }
 
     // -----------------------------------------------------------------------
