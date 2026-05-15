@@ -1,7 +1,7 @@
 # PHPMailer Change Log
 
 ## WIP
-* Validate `MessageDate` before including it in headers
+* Validate `MessageDate` before including it in headers.
 * Minor feature: some common non-RFC date formats and DateTime instances are now automatically converted to the right format for `MessageDate`.
 * Strip breaks from `XMailer`, `ContentType`, and `CharSet` properties.
 * Enforce strict checks on `Encoding` values.
