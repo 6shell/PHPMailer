@@ -4,6 +4,7 @@
 * Validate `MessageDate` before including it in headers.
 * Minor feature: some common non-RFC date formats and DateTime instances are now automatically converted to the right format for `MessageDate`.
 * Strip breaks from `XMailer`, `ContentType`, and `CharSet` properties.
+* Strip breaks from `username` and `password` properties before use in `POP3`.
 * Enforce strict checks on `Encoding` values.
 * Ease BC IMAP issues by allowing the `parseAddresses` `$useimap` parameter to be `false` or `null` without triggering a deprecation warning.
 
